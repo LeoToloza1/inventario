@@ -41,8 +41,15 @@ public class Registro extends javax.swing.JFrame {
         txtPassConfirma = new javax.swing.JPasswordField();
         registro1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setForeground(new java.awt.Color(0, 0, 0));
+        setUndecorated(true);
+        setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -122,22 +129,25 @@ public class Registro extends javax.swing.JFrame {
         SqlUsuario modSql = new SqlUsuario();
         Usuario mod = new Usuario();
 
-        String pass = new String(txtPass.getPassword());
-        String passCon = new String(txtPassConfirma.getPassword());
-        if (txtNombreUsuario.getText().equals("") || pass.equals("") || passCon.equals("")) {
-            JOptionPane.showMessageDialog(null, "Hay campos vacios, por favor complete todo");
+        String pass = new String(txtPass.getPassword()); //sacar la contraseña desde el campo de contraseña
+        String passCon = new String(txtPassConfirma.getPassword()); // se genera un nuevo string con la contraseña confirmada
+        if (txtNombreUsuario.getText().equals("") || pass.equals("") || passCon.equals("")) { //validacion de los campos vacios
+            JOptionPane.showMessageDialog(null, "Hay campos vacios, por favor complete todo"); // mensaje al usuario si hay campos vacio 
         } else {
-
-            if (pass.equals(passCon)) {
-                String nuevoPass = Contrasenia_Hash.sha1(pass);
-                mod.setUsuario(txtNombreUsuario.getText());
-                mod.setPass(nuevoPass);
-                mod.setTipoUsuario(1);
-                if (modSql.AgregarUsuario(mod)) {
-                    JOptionPane.showMessageDialog(null, "Se guardó exitosamente el usuario");
-                    limpiar();
+            if (pass.equals(passCon)) { // validacion de contraseña si los campos de confirmar contraseña coinciden
+                if (modSql.comprobarUsuario(txtNombreUsuario.getText()) == 0) { // validacion de si existe el usuario en la data base
+                    String nuevoPass = Contrasenia_Hash.sha1(pass); // //generacion de la contraseña ingresada con cifrado hash
+                    mod.setUsuario(txtNombreUsuario.getText()); //settear un nuevo usuario a partir del campo de nombre de usuario
+                    mod.setPass(nuevoPass); //settear la contraseña cifrada
+                    mod.setTipoUsuario(1); // settear el tipo de usuario 1 - para admin // 2 - para usuario sin privilegios
+                    if (modSql.AgregarUsuario(mod)) { //validacion para agregar un usario a la db
+                        JOptionPane.showMessageDialog(null, "Se guardó exitosamente el usuario"); 
+                        limpiar(); // funcion para borrar los campos de texto y dejarlos listos para volver a agregar un usario
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Hubo un error en el registro de usuario");
+                    }
                 } else {
-                    JOptionPane.showMessageDialog(null, "Hubo un error en el registro de usuario");
+                    JOptionPane.showMessageDialog(null, "El usuario ya existe");
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden");
@@ -145,6 +155,12 @@ public class Registro extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Login.registrar = null; // permite cerrar y volver a iniciar el formulario
+    }//GEN-LAST:event_formWindowClosing
+/*
+    Funcion para limpiar los campos de texto en el registro 
+    */
     private void limpiar(){
     txtNombreUsuario.setText("");
     txtPass.setText("");

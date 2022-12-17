@@ -4,20 +4,19 @@ Interfaz de login para acceso al sistema de inventarios
 package Graficas;
 
 import Clases.Conexion;
+import Clases.Contrasenia_Hash;
+import Clases.SqlUsuario;
+import Clases.Usuario;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class Login extends javax.swing.JFrame {
-
+    public static Registro registrar;
+    Home home;
     Conexion conn;
     public Login() {
         initComponents();
@@ -46,6 +45,7 @@ public class Login extends javax.swing.JFrame {
         botonConectar = new javax.swing.JButton();
         cancelar = new javax.swing.JButton();
         logo1 = new javax.swing.JLabel();
+        Add_Usuario = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -122,7 +122,7 @@ public class Login extends javax.swing.JFrame {
                 botonConectarActionPerformed(evt);
             }
         });
-        jPanel1.add(botonConectar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 240, 100, 30));
+        jPanel1.add(botonConectar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 240, 100, 30));
 
         cancelar.setText("Cancelar");
         cancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -130,10 +130,19 @@ public class Login extends javax.swing.JFrame {
                 cancelarActionPerformed(evt);
             }
         });
-        jPanel1.add(cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 240, 100, 30));
+        jPanel1.add(cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 240, 100, 30));
 
         logo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/login.png"))); // NOI18N
         jPanel1.add(logo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, 50, 280, 220));
+
+        Add_Usuario.setText("Agregar Usuario");
+        Add_Usuario.setPreferredSize(new java.awt.Dimension(77, 25));
+        Add_Usuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Add_UsuarioActionPerformed(evt);
+            }
+        });
+        jPanel1.add(Add_Usuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 240, 140, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -156,32 +165,47 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonConectarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonConectarActionPerformed
-        try {
-            String user = txt_usuario.getText();
-            String pass = String.valueOf(txt_pass.getPassword());
-            String query = "SELECT * FROM usuario WHERE usuario= '" + user + "' and pass= '" + pass + "'";
-            System.out.println(query);
-            Statement st = conn.getConexion().createStatement();
-            ResultSet rs = st.executeQuery(query);
-            if (rs.next()) {
-                JOptionPane.showMessageDialog(null, "USUARIO ENCONTRADO");
+        SqlUsuario modSqlUsuario = new SqlUsuario();
+        Usuario mod = new Usuario();
+        String pass = new String(txt_pass.getPassword());
+        if (!txt_usuario.getText().equals("") && !pass.equals("")) {
+            String nuevoPass = Contrasenia_Hash.sha1(pass);
+            mod.setUsuario(txt_usuario.getText());
+            mod.setPass(nuevoPass);
+            if (modSqlUsuario.login(mod)) {
                 JOptionPane.showMessageDialog(null, "INICIANDO SESION");
-            }else 
-                JOptionPane.showMessageDialog(null, "NO EXISTE EL USUARIO");
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+                registrar = null;
+                limpiar();
+                home = new Home();
+                home.setVisible(true);
+                this.dispose(); // sentencia para cerrar ventana de login y abrir el home
+            } else {
+                JOptionPane.showMessageDialog(null, "DATOS INCORRECTOS");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor ingrese todos los datos");
+        }   
     }//GEN-LAST:event_botonConectarActionPerformed
-
+private void limpiar(){
+    txt_usuario.setText("");
+    txt_pass.setText("");
+    } 
+    
     private void txt_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_usuarioActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_txt_usuarioActionPerformed
 
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
        System.exit(0);
     }//GEN-LAST:event_cancelarActionPerformed
+
+    private void Add_UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add_UsuarioActionPerformed
+        // patron de diseño singleton para que no se abra otro formulario de registro
+        if (registrar == null) { // si el registro no esta abierto, abre uno.
+            registrar = new Registro(); // se inicializa una nueva venatan de registro
+            registrar.setVisible(true); // se hace visible el formulario para registrar un nuevo usuario
+        }
+    }//GEN-LAST:event_Add_UsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -224,6 +248,7 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Add_Usuario;
     private javax.swing.JButton botonConectar;
     private javax.swing.JButton cancelar;
     private javax.swing.JLabel jLabel1;

@@ -6,6 +6,7 @@ package Clases;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
@@ -31,13 +32,50 @@ public class SqlUsuario extends Conexion {
 
     }
       
-    public void comprobarUsuario(){
-        String usuario = null;
-        String pass = null;
-        if (usuario.equalsIgnoreCase("Admin")&& pass.equalsIgnoreCase("admin")) {
-            
+    public int comprobarUsuario(String usuario){
+        PreparedStatement ps = null;
+        ResultSet rs;
+        Connection conn = getConexion();
+        String sql = "SELECT count(usuario) FROM usuario WHERE usuario = ?";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, usuario);
+      
+           rs= ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            return 1;
+        } catch (SQLException e) {
+           
+            return 1;
         }
     }
-  
+  public boolean login(Usuario usr){
+        PreparedStatement ps = null;
+        ResultSet rs;
+        Connection conn = getConexion();
+        String sql = "SELECT id, usuario, pass , tipousuario FROM usuario WHERE usuario = ?";
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, usr.getUsuario());
+      
+           rs= ps.executeQuery();
+            if (rs.next()) {
+                if (usr.getPass().equals(rs.getString(3))) {
+                    usr.setId(rs.getInt(1));
+                    usr.setUsuario(rs.getString(2));
+                    usr.setTipoUsuario(rs.getInt(4));
+                    return true;
+                }else{
+                    return false;
+                }
+            } return false;
+         
+        } catch (SQLException e) {
+           
+            return false;
+        }
+    }
       
 }
