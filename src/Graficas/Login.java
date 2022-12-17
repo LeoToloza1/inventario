@@ -6,7 +6,6 @@ package Graficas;
 import Clases.Conexion;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,24 +26,10 @@ public class Login extends javax.swing.JFrame {
         logo1.setIcon(new ImageIcon(logo.getScaledInstance(logo1.getWidth(), logo1.getHeight(),Image.SCALE_SMOOTH))); // setear una imagen a un label
         this.setIconImage(logo);
         this.setLocationRelativeTo(null);
-        conn = new Conexion();
-        conn.Conexion();
+//        conn = new Conexion();
+//        conn.getConexion();
     }
 
-    public void AgregarUsuario(){
-        String pass = String.valueOf(txt_pass.getPassword());
-        String sql = "INSERT INTO usuario (usuario , pass ) VALUES (?,?)";
-        try {
-            PreparedStatement pst = conn.Conexion().prepareStatement(sql);
-            pst.setString(1, txt_usuario.getText());
-            pst.setString(2, pass);
-            
-            pst.execute();
-            JOptionPane.showMessageDialog(null, "SE AGREGÓ CON EXITO AL USUARIO: "+txt_usuario.getText());
-        } catch (SQLException e) {
-             JOptionPane.showMessageDialog(null, "ERROR DE REGISTRO: " + e.getMessage());
-        }
-    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -61,7 +46,6 @@ public class Login extends javax.swing.JFrame {
         botonConectar = new javax.swing.JButton();
         cancelar = new javax.swing.JButton();
         logo1 = new javax.swing.JLabel();
-        addUsuario = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -138,7 +122,7 @@ public class Login extends javax.swing.JFrame {
                 botonConectarActionPerformed(evt);
             }
         });
-        jPanel1.add(botonConectar, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 240, 100, 30));
+        jPanel1.add(botonConectar, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 240, 100, 30));
 
         cancelar.setText("Cancelar");
         cancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -146,18 +130,10 @@ public class Login extends javax.swing.JFrame {
                 cancelarActionPerformed(evt);
             }
         });
-        jPanel1.add(cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 240, 100, 30));
+        jPanel1.add(cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 240, 100, 30));
 
         logo1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/login.png"))); // NOI18N
         jPanel1.add(logo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, 50, 280, 220));
-
-        addUsuario.setText("Agregar Usuario");
-        addUsuario.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addUsuarioActionPerformed(evt);
-            }
-        });
-        jPanel1.add(addUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 240, -1, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -185,7 +161,7 @@ public class Login extends javax.swing.JFrame {
             String pass = String.valueOf(txt_pass.getPassword());
             String query = "SELECT * FROM usuario WHERE usuario= '" + user + "' and pass= '" + pass + "'";
             System.out.println(query);
-            Statement st = conn.Conexion().createStatement();
+            Statement st = conn.getConexion().createStatement();
             ResultSet rs = st.executeQuery(query);
             if (rs.next()) {
                 JOptionPane.showMessageDialog(null, "USUARIO ENCONTRADO");
@@ -206,13 +182,6 @@ public class Login extends javax.swing.JFrame {
     private void cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarActionPerformed
        System.exit(0);
     }//GEN-LAST:event_cancelarActionPerformed
-
-    private void addUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUsuarioActionPerformed
-        AgregarUsuario();
-        txt_usuario.setText("");
-        txt_pass.setText("");
-        
-    }//GEN-LAST:event_addUsuarioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -255,7 +224,6 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addUsuario;
     private javax.swing.JButton botonConectar;
     private javax.swing.JButton cancelar;
     private javax.swing.JLabel jLabel1;
