@@ -55,7 +55,13 @@ public class SqlUsuario extends Conexion {
         PreparedStatement ps = null;
         ResultSet rs;
         Connection conn = getConexion();
-        String sql = "SELECT id, usuario, pass , tipousuario FROM usuario WHERE usuario = ?";
+        /**
+         * En la consulta multi tabla lo que se busca es relacionar 2 tablas partiendo de un mismo dato, en este caso el usuario
+         * y se busca traer el tipo de usuario desde otra tabla, para validar que tipo de usuario es. 1 para admin / 2 para usuario
+         * con esos datos, lo que se busca es darle privilegios de administrador y tener roles de usuarios.
+         */
+        String sql = "SELECT u.id, u.usuario, u.pass, u.tipousuario, t.nombre FROM usuario " //consulta multitabla de mysql
+                + "AS u INNER JOIN tipousuario AS t ON u.tipousuario=t.id WHERE usuario = ?"; // se esta relacionando el tipo de usuario con el id de la tambla tipo usuario
         try {
             ps = conn.prepareStatement(sql);
             ps.setString(1, usr.getUsuario());
@@ -66,6 +72,7 @@ public class SqlUsuario extends Conexion {
                     usr.setId(rs.getInt(1));
                     usr.setUsuario(rs.getString(2));
                     usr.setTipoUsuario(rs.getInt(4));
+                    usr.setRolUsuario(rs.getString(5));
                     return true;
                 }else{
                     return false;

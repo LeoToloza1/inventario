@@ -139,7 +139,7 @@ public class Registro extends javax.swing.JFrame {
                     String nuevoPass = Contrasenia_Hash.sha1(pass); // //generacion de la contraseña ingresada con cifrado hash
                     mod.setUsuario(txtNombreUsuario.getText()); //settear un nuevo usuario a partir del campo de nombre de usuario
                     mod.setPass(nuevoPass); //settear la contraseña cifrada
-                    mod.setTipoUsuario(1); // settear el tipo de usuario 1 - para admin // 2 - para usuario sin privilegios
+                    mod.setTipoUsuario(2); // settear el tipo de usuario 1 - para admin // 2 - para usuario sin privilegios
                     if (modSql.AgregarUsuario(mod)) { //validacion para agregar un usario a la db
                         JOptionPane.showMessageDialog(null, "Se guardó exitosamente el usuario"); 
                         limpiar(); // funcion para borrar los campos de texto y dejarlos listos para volver a agregar un usario

@@ -15,6 +15,7 @@ public class Usuario {
     private String usuario;
     private String pass;
     private int tipoUsuario;
+    private String rolUsuario;
 
     public int getTipoUsuario() {
         return tipoUsuario;
@@ -47,5 +48,14 @@ public class Usuario {
     public void setPass(String pass) {
         this.pass = pass;
     }
+
+    public String getRolUsuario() {
+        return rolUsuario;
+    }
+
+    public void setRolUsuario(String rolUsuario) {
+        this.rolUsuario = rolUsuario;
+    }
+    
 
 }

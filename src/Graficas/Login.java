@@ -18,6 +18,7 @@ public class Login extends javax.swing.JFrame {
     public static Registro registrar;
     Home home;
     Conexion conn;
+    Usuario mod;
     public Login() {
         initComponents();
         this.setTitle("Login");
@@ -25,8 +26,7 @@ public class Login extends javax.swing.JFrame {
         logo1.setIcon(new ImageIcon(logo.getScaledInstance(logo1.getWidth(), logo1.getHeight(),Image.SCALE_SMOOTH))); // setear una imagen a un label
         this.setIconImage(logo);
         this.setLocationRelativeTo(null);
-//        conn = new Conexion();
-//        conn.getConexion();
+
     }
 
     
@@ -176,7 +176,8 @@ public class Login extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "INICIANDO SESION");
                 registrar = null;
                 limpiar();
-                home = new Home();
+                this.dispose();
+                home = new Home(mod);
                 home.setVisible(true);
                 this.dispose(); // sentencia para cerrar ventana de login y abrir el home
             } else {
@@ -201,6 +202,7 @@ private void limpiar(){
 
     private void Add_UsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Add_UsuarioActionPerformed
         // patron de diseño singleton para que no se abra otro formulario de registro
+      
         if (registrar == null) { // si el registro no esta abierto, abre uno.
             registrar = new Registro(); // se inicializa una nueva venatan de registro
             registrar.setVisible(true); // se hace visible el formulario para registrar un nuevo usuario
