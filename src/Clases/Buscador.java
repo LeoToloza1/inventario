@@ -15,6 +15,7 @@ public class Buscador {
     private static String tabla4 = "aluminio";
     private static String tabla5 = "ofertas";
     private static String tabla6 = "pendienteingreso";
+    private static String and = " and ";
     private Buscador() {
     }
 
@@ -42,17 +43,9 @@ public class Buscador {
         return sql + buscar_en + tabla6;
     }
  
- public static String filtroCondicional() {
-        return sql + buscar_en + tabla1 + donde;
+ public static String filtroCondicional() { 
+        return mostrarPuerta()+ donde;
     }
- 
- 
- 
- 
- 
- 
- 
- 
- 
+
  
 }

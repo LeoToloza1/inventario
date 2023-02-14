@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bf11dc0a-0d88-41c2-9d5a-f127b8b2a38b">
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     puertas.`Cliente` AS puertas_Cliente,
+     puertas.`Estado` AS puertas_Estado,
+     puertas.`Proveedor` AS puertas_Proveedor,
+     puertas.`Producto` AS puertas_Producto,
+     puertas.`Linea` AS puertas_Linea,
+     puertas.`Modelo` AS puertas_Modelo,
+     puertas.`Hoja` AS puertas_Hoja,
+     puertas.`Marco` AS puertas_Marco,
+     puertas.`Mano` AS puertas_Mano,
+     puertas.`Orden` AS puertas_Orden,
+     puertas.`FechaPedido` AS puertas_FechaPedido,
+     puertas.`FechaRecibido` AS puertas_FechaRecibido,
+     puertas.`Valor` AS puertas_Valor,
+     puertas.`Ubicacion` AS puertas_Ubicacion,
+     puertas.`Modulo` AS puertas_Modulo,
+     puertas.`Fila` AS puertas_Fila,
+     puertas.`Observaciones` AS puertas_Observaciones
+FROM
+     `puertas` puertas]]>
+	</queryString>
+	<field name="puertas_Cliente" class="java.lang.String"/>
+	<field name="puertas_Estado" class="java.lang.String"/>
+	<field name="puertas_Proveedor" class="java.lang.String"/>
+	<field name="puertas_Producto" class="java.lang.String"/>
+	<field name="puertas_Linea" class="java.lang.String"/>
+	<field name="puertas_Modelo" class="java.lang.String"/>
+	<field name="puertas_Hoja" class="java.lang.String"/>
+	<field name="puertas_Marco" class="java.lang.String"/>
+	<field name="puertas_Mano" class="java.lang.String"/>
+	<field name="puertas_Orden" class="java.lang.Integer"/>
+	<field name="puertas_FechaPedido" class="java.lang.String"/>
+	<field name="puertas_FechaRecibido" class="java.lang.String"/>
+	<field name="puertas_Valor" class="java.lang.Double"/>
+	<field name="puertas_Ubicacion" class="java.lang.String"/>
+	<field name="puertas_Modulo" class="java.lang.String"/>
+	<field name="puertas_Fila" class="java.lang.String"/>
+	<field name="puertas_Observaciones" class="java.lang.String"/>
+	<group name="puertas_Cliente">
+		<groupExpression><![CDATA[$F{puertas_Cliente}]]></groupExpression>
+		<groupHeader>
+			<band height="27">
+				<frame>
+					<reportElement mode="Opaque" x="0" y="3" width="721" height="24" forecolor="#B89F7D" backcolor="#000000" uuid="a959e787-8442-471a-9662-3aa757006ca5"/>
+					<textField isStretchWithOverflow="true">
+						<reportElement style="SubTitle" x="2" y="0" width="695" height="24" forecolor="#FFFFFF" uuid="811984aa-8a33-434c-999e-5b1b5cc2572c"/>
+						<textElement>
+							<font isBold="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{puertas_Cliente}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<rectangle>
+					<reportElement x="725" y="3" width="77" height="24" backcolor="#666666" uuid="102e7b10-78c4-4b8f-a8c2-4dfef7bc0c3d"/>
+					<graphicElement>
+						<pen lineWidth="0.0"/>
+					</graphicElement>
+				</rectangle>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<group name="puertas_Proveedor">
+		<groupExpression><![CDATA[$F{puertas_Proveedor}]]></groupExpression>
+		<groupHeader>
+			<band height="30">
+				<textField>
+					<reportElement positionType="Float" x="0" y="4" width="802" height="26" forecolor="#000000" uuid="6f0a1243-48d6-457e-8055-0f4fc301c97d"/>
+					<textElement>
+						<font fontName="Times New Roman" size="16" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{puertas_Proveedor}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="puertas_Linea">
+		<groupExpression><![CDATA[$F{puertas_Linea}]]></groupExpression>
+	</group>
+	<group name="puertas_Producto">
+		<groupExpression><![CDATA[$F{puertas_Producto}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<image>
+				<reportElement x="725" y="0" width="77" height="102" uuid="1990bf77-c70d-43d0-bb11-6c123c0802f8"/>
+				<imageExpression><![CDATA["cherry.jpg"]]></imageExpression>
+			</image>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="721" height="66" backcolor="#000000" uuid="2a360538-cde0-4400-b64d-a194fdfae1ef"/>
+				<staticText>
+					<reportElement style="Title" x="0" y="0" width="370" height="66" uuid="c680d6b2-ef40-4924-9f62-213498a16fec"/>
+					<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4"/>
+					<textElement verticalAlignment="Bottom">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[Cherry Title]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" x="370" y="37" width="316" height="29" uuid="6f0d3231-1646-433e-9399-33eaa4903aae"/>
+					<textElement textAlignment="Right">
+						<font size="22" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Cherry SubTitle]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="70" width="721" height="32" forecolor="#000000" backcolor="#CC0000" uuid="9307c28a-d710-4617-bfc9-2b8bbe98faeb"/>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement x="553" y="12" width="144" height="20" forecolor="#FFFFFF" uuid="227dd988-fe4f-414c-8fb3-9a8654cd849d"/>
+					<textElement textAlignment="Right">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="18" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="61" height="18" forecolor="#000000" uuid="b25ce150-a73d-443d-9403-28847a3d4748"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[puertas_Estado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="61" y="0" width="61" height="18" forecolor="#000000" uuid="6e490e58-04e1-4f03-ab70-5061ed1ba6a6"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[puertas_Modelo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="122" y="0" width="61" height="18" forecolor="#000000" uuid="f518462c-b3e1-4081-b733-cf66bc2fcfc5"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[puertas_Hoja]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="183" y="0" width="61" height="18" forecolor="#000000" uuid="53eecb7e-13a3-4f34-a0b0-35f5211bb548"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[puertas_Marco]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="244" y="0" width="61" height="18" forecolor="#000000" uuid="136325d4-38be-41e9-b33e-c651e091c885"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[puertas_Mano]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="305" y="0" width="61" height="18" forecolor="#000000" uuid="6f3042f1-a56b-430a-91ec-0d25e59d1658"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[puertas_Orden]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="366" y="0" width="61" height="18" forecolor="#000000" uuid="0539341e-29f7-431b-9809-30a1f5f741b3"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[puertas_FechaPedido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="427" y="0" width="61" height="18" forecolor="#000000" uuid="fec6325c-236b-43b3-9314-bcb3377e9315"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[puertas_FechaRecibido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="488" y="0" width="61" height="18" forecolor="#000000" uuid="e71e6e4c-1ed1-4116-8f75-5de1af82c4fd"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[puertas_Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="549" y="0" width="61" height="18" forecolor="#000000" uuid="38c94133-cfd1-4830-8e70-75e071f3fd83"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[puertas_Ubicacion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="610" y="0" width="61" height="18" forecolor="#000000" uuid="b89c5baa-1311-450e-b45c-4d0116629538"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[puertas_Modulo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="671" y="0" width="61" height="18" forecolor="#000000" uuid="fe5ec7a0-a47f-4505-bbfd-fbc20f818d8b"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[puertas_Fila]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="732" y="0" width="61" height="18" forecolor="#000000" uuid="07df9344-8217-4742-88e8-eafe828d1118"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[puertas_Observaciones]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="797" height="18" uuid="9ec3c320-97d8-4826-8134-f571fc06c1fe"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="0" y="0" width="61" height="18" uuid="baeda669-7a2a-45cb-917a-8a9fa077834f"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{puertas_Estado}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="61" y="0" width="61" height="18" uuid="6d6dc924-ef97-4002-90cf-9728e59213aa"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{puertas_Modelo}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="122" y="0" width="61" height="18" uuid="9e82b81d-44e5-4cac-aa3b-a67d16dc94e8"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{puertas_Hoja}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="183" y="0" width="61" height="18" uuid="a292566c-65e8-463a-8d99-05e2912da2c0"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{puertas_Marco}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="244" y="0" width="61" height="18" uuid="5d0f3a51-794b-4e2f-b5a3-7fb59f2e60b3"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{puertas_Mano}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="305" y="0" width="61" height="18" uuid="33596cb6-5948-4446-848f-c07ef75a60d1"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{puertas_Orden}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="366" y="0" width="61" height="18" uuid="6deee55c-96ab-48ba-9729-2c3f31a5dd9d"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{puertas_FechaPedido}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="427" y="0" width="61" height="18" uuid="8395c4d3-daf7-46c3-bfcc-0d652fce6063"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{puertas_FechaRecibido}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="488" y="0" width="61" height="18" uuid="e82eff45-304a-4af8-9689-994dcfa7714b"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{puertas_Valor}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="549" y="0" width="61" height="18" uuid="5131c0ac-37ae-431f-a544-b5b965a68d86"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{puertas_Ubicacion}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="610" y="0" width="61" height="18" uuid="b207d80c-5df9-4a7d-8640-4f189d531f3c"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{puertas_Modulo}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="671" y="0" width="61" height="18" uuid="181d2a0f-ddd8-4532-b9d3-fa008d9edea5"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{puertas_Fila}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="732" y="0" width="61" height="18" uuid="967f7c39-2c9b-4d8a-8636-43e7c097979e"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{puertas_Observaciones}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="31f0701a-ca0b-4352-bc52-6bfd5396f21e"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="25" forecolor="#D0B48E" backcolor="#000000" uuid="83b3e5f1-e5fb-493e-a645-dde7354d0332"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="757" y="3" width="40" height="20" forecolor="#FFFFFF" uuid="fd0aaa7c-2c8a-4fca-9baf-63058594b11f"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="677" y="3" width="80" height="20" forecolor="#FFFFFF" uuid="98d71254-ef8e-489e-ba98-e7bf1b79b24b"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="2" y="3" width="197" height="20" forecolor="#FFFFFF" uuid="ae00d61b-328b-40fe-884f-687d831d6b77"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -182,10 +182,10 @@ public class Login extends javax.swing.JFrame {
                 this.dispose(); // sentencia para cerrar ventana de login y abrir el home
             } else {
                 JOptionPane.showMessageDialog(null, "DATOS INCORRECTOS");
-            }
+            } 
         } else {
             JOptionPane.showMessageDialog(null, "Por favor ingrese todos los datos");
-        }   
+        }
     }//GEN-LAST:event_botonConectarActionPerformed
 private void limpiar(){
     txt_usuario.setText("");

@@ -1,73 +1,42 @@
-
 package Graficas;
 
 import Clases.Buscador;
 import Clases.Conexion;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.sql.Date;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
+import static org.eclipse.persistence.config.ResultType.Map;
 
 public class Puertas extends javax.swing.JFrame {
+
     PreparedStatement ps = null;
     ResultSet rs = null;
     Conexion conn = new Conexion();
+
     public Puertas() {
-         initComponents();
+        initComponents();
         this.setTitle("Inventario  de puertas");
         this.setLocationRelativeTo(null);
+        
         Image logo = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/img/ranelagh.png"));
         this.setIconImage(logo);
-        try {
-            DefaultTableModel modelo = new DefaultTableModel();
-            jtPuertas.setModel(modelo);
-            
-            Connection con = conn.getConexion();
-           String sql = Buscador.mostrarPuerta(); // llamo al metodo mostrar puerta de la clase buscador, para visualizar la tabla puertas completa
-           ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
-
-            ResultSetMetaData rsMd = rs.getMetaData(); // obtener todos los datos de la tabla
-            int cantColumnas = rsMd.getColumnCount();//contar columnas
-            /**
-             * Agregar columnas a la tabla para visualizar los datos
-             */
-            
-            modelo.addColumn("Cliente");
-            modelo.addColumn("Estado");
-            modelo.addColumn("Proveedor");
-            modelo.addColumn("Producto");
-            modelo.addColumn("Linea");
-            modelo.addColumn("Modelo");
-            modelo.addColumn("Hoja");
-            modelo.addColumn("Marco");
-            modelo.addColumn("Mano");
-            modelo.addColumn("Orden");
-            modelo.addColumn("Fecha Pedido");
-            modelo.addColumn("Fecha Recibido");
-            modelo.addColumn("Valor");
-            modelo.addColumn("Ubicacion");
-            modelo.addColumn("Modulo");
-            modelo.addColumn("Fila");
-            modelo.addColumn("Observaciones");
-
-            //verificar que existan datos en la tabla
-            while (rs.next()) {
-                Object[] filas = new Object[cantColumnas];
-                for (int i = 0; i < cantColumnas; i++) {
-                    filas[i] = rs.getObject(i + 1);
-                }
-                modelo.addRow(filas);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.toString());
-        }
+        agregarColumnas1();
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -78,17 +47,21 @@ public class Puertas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        cmbFiltro1 = new javax.swing.JComboBox<>();
+        cmbFiltro2 = new javax.swing.JComboBox<>();
+        txtBuscador2 = new javax.swing.JTextField();
+        txtBuscador1 = new javax.swing.JTextField();
+        cmbFiltro3 = new javax.swing.JComboBox<>();
+        txtBuscador3 = new javax.swing.JTextField();
+        cmbFiltro4 = new javax.swing.JComboBox<>();
+        txtBuscador4 = new javax.swing.JTextField();
+        btnGenerarReporte = new javax.swing.JButton();
+        Titulo = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jtPuertas = new javax.swing.JTable();
-        jSeparator1 = new javax.swing.JSeparator();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        cmbFiltro2 = new javax.swing.JComboBox<>();
-        txtBuscador = new javax.swing.JTextField();
-        cmbFiltro1 = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        Titulo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -96,7 +69,128 @@ public class Puertas extends javax.swing.JFrame {
                 formWindowClosing(evt);
             }
         });
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel2.setLayout(new java.awt.BorderLayout());
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white), "Filtrar por palabra clave", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 18))); // NOI18N
+
+        cmbFiltro1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        cmbFiltro1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Estado", "Proveedor", "Producto", "Linea", "Modelo", "Hoja", "Marco", "Mano", "Orden", "Fecha Pedido", "Fecha Recibido", "Ubicacion", "Modulo", "Fila", "Observaciones" }));
+        cmbFiltro1.setToolTipText("");
+        cmbFiltro1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white));
+        cmbFiltro1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        cmbFiltro1.setName(""); // NOI18N
+
+        cmbFiltro2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        cmbFiltro2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Estado", "Proveedor", "Producto", "Linea", "Modelo", "Hoja", "Marco", "Mano", "Orden", "Fecha Pedido", "Fecha Recibido", "Ubicacion", "Modulo", "Fila", "Observaciones" }));
+        cmbFiltro2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white));
+
+        txtBuscador2.setToolTipText("");
+        txtBuscador2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscador2KeyReleased(evt);
+            }
+        });
+
+        txtBuscador1.setToolTipText("");
+        txtBuscador1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscador1KeyReleased(evt);
+            }
+        });
+
+        cmbFiltro3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        cmbFiltro3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Estado", "Proveedor", "Producto", "Linea", "Modelo", "Hoja", "Marco", "Mano", "Orden", "Fecha Pedido", "Fecha Recibido", "Ubicacion", "Modulo", "Fila", "Observaciones" }));
+        cmbFiltro3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white));
+
+        txtBuscador3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscador3KeyReleased(evt);
+            }
+        });
+
+        cmbFiltro4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        cmbFiltro4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Estado", "Proveedor", "Producto", "Linea", "Modelo", "Hoja", "Marco", "Mano", "Orden", "Fecha Pedido", "Fecha Recibido", "Ubicacion", "Modulo", "Fila", "Observaciones" }));
+        cmbFiltro4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white));
+
+        txtBuscador4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscador4KeyReleased(evt);
+            }
+        });
+
+        btnGenerarReporte.setText("Generar Reporte");
+        btnGenerarReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarReporteActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(4, 4, 4)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cmbFiltro1, 0, 180, Short.MAX_VALUE)
+                    .addComponent(txtBuscador1, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
+                .addGap(15, 15, 15)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtBuscador2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(txtBuscador3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(txtBuscador4, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(cmbFiltro2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(cmbFiltro3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
+                        .addComponent(cmbFiltro4, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 953, Short.MAX_VALUE)
+                .addComponent(btnGenerarReporte)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cmbFiltro1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbFiltro2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cmbFiltro3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cmbFiltro4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtBuscador1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtBuscador2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtBuscador3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtBuscador4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(32, 32, 32))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnGenerarReporte)
+                        .addGap(8, 8, 8))))
+        );
+
+        jPanel2.add(jPanel1, java.awt.BorderLayout.CENTER);
+
+        Titulo.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
+        Titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Titulo.setText("Estado de Stock de puertas");
+        Titulo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white));
+        Titulo.setInheritsPopupMenu(false);
+        Titulo.setPreferredSize(new java.awt.Dimension(400, 51));
+        Titulo.setRequestFocusEnabled(false);
+        jPanel2.add(Titulo, java.awt.BorderLayout.NORTH);
+
+        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_START);
+
+        jPanel3.setLayout(new java.awt.BorderLayout());
+        getContentPane().add(jPanel3, java.awt.BorderLayout.LINE_START);
 
         jtPuertas.setAutoCreateRowSorter(true);
         jtPuertas.setModel(new javax.swing.table.DefaultTableModel(
@@ -127,129 +221,67 @@ public class Puertas extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jtPuertas);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 1750, 570));
-        getContentPane().add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1100, 60, -1, -1));
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.white, java.awt.Color.white));
-        jPanel1.setLayout(null);
-
-        jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Filtros");
-        jLabel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white));
-        jPanel1.add(jLabel2);
-        jLabel2.setBounds(120, 10, 80, 30);
-
-        cmbFiltro2.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        cmbFiltro2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white));
-        cmbFiltro2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        cmbFiltro2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbFiltro2ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(cmbFiltro2);
-        cmbFiltro2.setBounds(150, 50, 150, 30);
-
-        txtBuscador.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtBuscadorKeyReleased(evt);
-            }
-        });
-        jPanel1.add(txtBuscador);
-        txtBuscador.setBounds(310, 50, 250, 30);
-
-        cmbFiltro1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        cmbFiltro1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cliente", "Estado", "Proveedor", "Producto", "Linea", "Modelo", "Hoja", "Marco", "Mano", "Orden", "Fecha Pedido", "Fecha Recibido", "Ubicacion", "Modulo", "Fila", "Observaciones" }));
-        cmbFiltro1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white));
-        cmbFiltro1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        cmbFiltro1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbFiltro1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(cmbFiltro1);
-        cmbFiltro1.setBounds(10, 50, 130, 30);
-
-        jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Filtrar por palabra clave");
-        jLabel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(310, 10, 250, 30);
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 10, 580, 110));
-
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        Titulo.setFont(new java.awt.Font("Dialog", 1, 36)); // NOI18N
-        Titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Titulo.setText("Estado de Stock de puertas");
-        Titulo.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white, java.awt.Color.white));
-        jPanel2.add(Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 10, -1, 60));
-
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 510, 70));
+        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-          Home.puertas = null;// permite cerrar y volver a iniciar el formulario
+        Home.puertas = null;// permite cerrar y volver a iniciar el formulario
     }//GEN-LAST:event_formWindowClosing
 
-    private void cmbFiltro2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFiltro2ActionPerformed
-       
-    }//GEN-LAST:event_cmbFiltro2ActionPerformed
+    private void txtBuscador2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscador2KeyReleased
+        /**
+         * Filtro sensitivo para buscar por palabras clave combinando con el
+         * primer filtro y el segundo filtro
+         */
+        filtro2();
+        agregarColumnas2();
+    }//GEN-LAST:event_txtBuscador2KeyReleased
 
-    private void txtBuscadorKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscadorKeyReleased
-/**
- * Filtro sensitivo para buscar por palabras clave combinando con el primer filtro
- */      
-        String filtro = Buscador.filtroCondicional()+cmbFiltro1.getSelectedItem().toString()+ " LIKE '"+ txtBuscador.getText()+ "%'";
-        //System.out.println(filtro); linea para debbugear
+    private void txtBuscador1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscador1KeyReleased
+        filtro1();
+        agregarColumnas1();
+    }//GEN-LAST:event_txtBuscador1KeyReleased
+
+    private void txtBuscador3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscador3KeyReleased
+        filtro3();
+        agregarColumnas3();
+    }//GEN-LAST:event_txtBuscador3KeyReleased
+
+    private void txtBuscador4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscador4KeyReleased
+        filtro4();
+        agregarColumnas4();
+    }//GEN-LAST:event_txtBuscador4KeyReleased
+
+    private void btnGenerarReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarReporteActionPerformed
+        /**
+         * Boton para generar un reporte de todo el inventario de puertas
+         * disponibles
+         */
         try {
-           DefaultTableModel modelo = new DefaultTableModel();
-            jtPuertas.setModel(modelo);
-            Connection con = conn.getConexion();
-           ps = con.prepareStatement(filtro);
-            rs = ps.executeQuery();
-
-            ResultSetMetaData rsMd = rs.getMetaData();
-            int cantColumnas = rsMd.getColumnCount();//contar columnas
-            modelo.addColumn("Cliente");
-            modelo.addColumn("Estado");
-            modelo.addColumn("Proveedor");
-            modelo.addColumn("Producto");
-            modelo.addColumn("Linea");
-            modelo.addColumn("Modelo");
-            modelo.addColumn("Hoja");
-            modelo.addColumn("Marco");
-            modelo.addColumn("Mano");
-            modelo.addColumn("Orden");
-            modelo.addColumn("Fecha Pedido");
-            modelo.addColumn("Fecha Recibido");
-            modelo.addColumn("Valor");
-            modelo.addColumn("Ubicacion");
-            modelo.addColumn("Modulo");
-            modelo.addColumn("Fila");
-            modelo.addColumn("Observaciones");
-            while (rs.next()) {
-                Object[] filas = new Object[cantColumnas];
-                for (int i = 0; i < cantColumnas; i++) {
-                    filas[i] = rs.getObject(i + 1);
-                }
-                modelo.addRow(filas);
-            }
+            JasperReport reporte = null;
+            String parametro = JOptionPane.showInputDialog("Ingrese el cliente");
+            String path = "src\\Reportes\\puertas.jasper";
+            Map parametros = new HashMap<String, Object>();
+            parametros.put("Par",parametro);
+//            parametros.put(cmbFiltro1.getSelectedItem().toString(), txtBuscador1.getText());
+//            parametros.put(cmbFiltro2.getSelectedItem().toString(), txtBuscador2.getText());
+//            parametros.put(cmbFiltro3.getSelectedItem().toString(), txtBuscador3.getText());
+//            parametros.put(cmbFiltro4.getSelectedItem().toString(), txtBuscador4.getText());
+         
+                            reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
+                            JasperPrint jPrint;
+                            jPrint = JasperFillManager.fillReport(reporte, parametros, conn.getConexion());
+                            JasperViewer view = new JasperViewer(jPrint, false);
+                            view.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                            view.setVisible(true);
+           
             
-        } catch (SQLException e) {
-            System.out.println(e.toString());
+        } catch (JRException e) {
+            System.out.println(e);
         }
-    
-    }//GEN-LAST:event_txtBuscadorKeyReleased
-
-    private void cmbFiltro1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFiltro1ActionPerformed
-
-    }//GEN-LAST:event_cmbFiltro1ActionPerformed
+    }//GEN-LAST:event_btnGenerarReporteActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -283,19 +315,229 @@ public class Puertas extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Titulo;
+    private javax.swing.JButton btnGenerarReporte;
     private javax.swing.JComboBox<String> cmbFiltro1;
     private javax.swing.JComboBox<String> cmbFiltro2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JComboBox<String> cmbFiltro3;
+    private javax.swing.JComboBox<String> cmbFiltro4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jtPuertas;
-    private javax.swing.JTextField txtBuscador;
+    private javax.swing.JTextField txtBuscador1;
+    private javax.swing.JTextField txtBuscador2;
+    private javax.swing.JTextField txtBuscador3;
+    private javax.swing.JTextField txtBuscador4;
     // End of variables declaration//GEN-END:variables
+    /**
+     * Filtro sensitivo 1
+     *
+     * @return devuelve un string con lo que va a buscar el textfield, actua
+     * como un filtro dinamico
+    **/
+    public String filtro1() {
+        String filtro = Buscador.filtroCondicional() + cmbFiltro1.getSelectedItem().toString() + " LIKE '" + txtBuscador1.getText() + "%'";
+        return filtro;
+    }
 
+    /**
+     * filtro sensitvo 2
+     *
+     * @return devuelve un string con lo que va a buscar el textfield, actua
+     * como un filtro dinamico
+     */
+    public String filtro2() {
+        return filtro1() + " and " + cmbFiltro2.getSelectedItem().toString() + " LIKE '" + txtBuscador2.getText() + "%'";
+    }
 
+    /**
+     * filtro sensitivo 3
+     *
+     * @return devuelve un string con lo que va a buscar el textfield, actua
+     * como un filtro dinamico
+     */
+    public String filtro3() {
+        return filtro2() + " and " + cmbFiltro3.getSelectedItem().toString() + " LIKE '" + txtBuscador3.getText() + "%'";
+    }
 
+    /**
+     * filtro sensitivo 4
+     *
+     * @return devuelve un string con lo que va a buscar el textfield, actua
+     * como un filtro dinamico
+     */
+    public String filtro4() {
+        return filtro3() + " and " + cmbFiltro4.getSelectedItem().toString() + " LIKE '" + txtBuscador4.getText() + "%'";
+    }
+
+    /**
+     * funcion que agregar las columnas al priomer filtro sensitivo
+     */
+    public final void agregarColumnas1() {
+        try {
+            DefaultTableModel modelo = new DefaultTableModel();
+            jtPuertas.setModel(modelo);
+            Connection con = conn.getConexion();
+            ps = con.prepareStatement(filtro2());
+            rs = ps.executeQuery();
+
+            ResultSetMetaData rsMd = rs.getMetaData();
+            int cantColumnas = rsMd.getColumnCount();//contar columnas
+            modelo.addColumn("Cliente");
+            modelo.addColumn("Estado");
+            modelo.addColumn("Proveedor");
+            modelo.addColumn("Producto");
+            modelo.addColumn("Linea");
+            modelo.addColumn("Modelo");
+            modelo.addColumn("Hoja");
+            modelo.addColumn("Marco");
+            modelo.addColumn("Mano");
+            modelo.addColumn("Orden");
+            modelo.addColumn("Fecha Pedido");
+            modelo.addColumn("Fecha Recibido");
+            modelo.addColumn("Valor");
+            modelo.addColumn("Ubicacion");
+            modelo.addColumn("Modulo");
+            modelo.addColumn("Fila");
+            modelo.addColumn("Observaciones");
+            while (rs.next()) {
+                Object[] filas = new Object[cantColumnas];
+                for (int i = 0; i < cantColumnas; i++) {
+                    filas[i] = rs.getObject(i + 1);
+                }
+                modelo.addRow(filas);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+    }
+
+    /**
+     * funcion para agregar las columnas al segundo filtro sensitivo
+     */
+    public final void agregarColumnas2() {
+        try {
+            DefaultTableModel modelo = new DefaultTableModel();
+            jtPuertas.setModel(modelo);
+            Connection con = conn.getConexion();
+            ps = con.prepareStatement(filtro2());
+            rs = ps.executeQuery();
+
+            ResultSetMetaData rsMd = rs.getMetaData();
+            int cantColumnas = rsMd.getColumnCount();//contar columnas
+            modelo.addColumn("Cliente");
+            modelo.addColumn("Estado");
+            modelo.addColumn("Proveedor");
+            modelo.addColumn("Producto");
+            modelo.addColumn("Linea");
+            modelo.addColumn("Modelo");
+            modelo.addColumn("Hoja");
+            modelo.addColumn("Marco");
+            modelo.addColumn("Mano");
+            modelo.addColumn("Orden");
+            modelo.addColumn("Fecha Pedido");
+            modelo.addColumn("Fecha Recibido");
+            modelo.addColumn("Valor");
+            modelo.addColumn("Ubicacion");
+            modelo.addColumn("Modulo");
+            modelo.addColumn("Fila");
+            modelo.addColumn("Observaciones");
+            while (rs.next()) {
+                Object[] filas = new Object[cantColumnas];
+                for (int i = 0; i < cantColumnas; i++) {
+                    filas[i] = rs.getObject(i + 1);
+                }
+                modelo.addRow(filas);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+    }
+    /**
+     * funcion para agregar las columnas al tercer filtro sensitivo
+     */
+    public final void agregarColumnas3() {
+        try {
+            DefaultTableModel modelo = new DefaultTableModel();
+            jtPuertas.setModel(modelo);
+            Connection con = conn.getConexion();
+            ps = con.prepareStatement(filtro3());
+            rs = ps.executeQuery();
+
+            ResultSetMetaData rsMd = rs.getMetaData();
+            int cantColumnas = rsMd.getColumnCount();//contar columnas
+            modelo.addColumn("Cliente");
+            modelo.addColumn("Estado");
+            modelo.addColumn("Proveedor");
+            modelo.addColumn("Producto");
+            modelo.addColumn("Linea");
+            modelo.addColumn("Modelo");
+            modelo.addColumn("Hoja");
+            modelo.addColumn("Marco");
+            modelo.addColumn("Mano");
+            modelo.addColumn("Orden");
+            modelo.addColumn("Fecha Pedido");
+            modelo.addColumn("Fecha Recibido");
+            modelo.addColumn("Valor");
+            modelo.addColumn("Ubicacion");
+            modelo.addColumn("Modulo");
+            modelo.addColumn("Fila");
+            modelo.addColumn("Observaciones");
+            while (rs.next()) {
+                Object[] filas = new Object[cantColumnas];
+                for (int i = 0; i < cantColumnas; i++) {
+                    filas[i] = rs.getObject(i + 1);
+                }
+                modelo.addRow(filas);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+    }
+    /**
+     * funcion para agregar las columnas al cuarto filtro sensitivo
+     */
+    public final void agregarColumnas4() {
+        try {
+            DefaultTableModel modelo = new DefaultTableModel();
+            jtPuertas.setModel(modelo);
+            Connection con = conn.getConexion();
+            ps = con.prepareStatement(filtro4());
+            rs = ps.executeQuery();
+
+            ResultSetMetaData rsMd = rs.getMetaData();
+            int cantColumnas = rsMd.getColumnCount();//contar columnas
+            modelo.addColumn("Cliente");
+            modelo.addColumn("Estado");
+            modelo.addColumn("Proveedor");
+            modelo.addColumn("Producto");
+            modelo.addColumn("Linea");
+            modelo.addColumn("Modelo");
+            modelo.addColumn("Hoja");
+            modelo.addColumn("Marco");
+            modelo.addColumn("Mano");
+            modelo.addColumn("Orden");
+            modelo.addColumn("Fecha Pedido");
+            modelo.addColumn("Fecha Recibido");
+            modelo.addColumn("Valor");
+            modelo.addColumn("Ubicacion");
+            modelo.addColumn("Modulo");
+            modelo.addColumn("Fila");
+            modelo.addColumn("Observaciones");
+            while (rs.next()) {
+                Object[] filas = new Object[cantColumnas];
+                for (int i = 0; i < cantColumnas; i++) {
+                    filas[i] = rs.getObject(i + 1);
+                }
+                modelo.addRow(filas);
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+    }
 }
-
